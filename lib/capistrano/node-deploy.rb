@@ -38,6 +38,7 @@ Capistrano::Configuration.instance(:must_exist).load do |configuration|
   set :app_environment, "" unless defined? app_environment
 
   set :node_binary, "/usr/bin/node" unless defined? node_binary
+  set :npm_binary, "/usr/bin/npm" unless defined? npm_binary
   set :node_env, "production" unless defined? node_env
   set :node_user, "deploy" unless defined? node_user
 
@@ -69,7 +70,7 @@ EOD
     desc "Check required packages and install if packages are not installed"
     task :install_packages do
       run "cp -r #{previous_release}/node_modules #{release_path}" if previous_release
-      run "cd #{release_path} && npm install --loglevel warn"
+      run "cd #{release_path} && #{npm_binary} install --loglevel warn"
     end
 
     task :check_upstart_config do
